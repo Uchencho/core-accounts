@@ -2,12 +2,14 @@ package app
 
 import (
 	"context"
+	"log"
 
 	"github.com/Uchencho/commons/uuid"
 	"github.com/Uchencho/core-accounts/internal/db"
 	"github.com/Uchencho/core-accounts/internal/workflow"
 	"github.com/Uchencho/core-proto/generated/accounts"
 	"github.com/golang/protobuf/ptypes/empty"
+	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 type App struct {
@@ -35,11 +37,12 @@ func NewApp(opts ...OptionalArg) App {
 }
 
 func (a App) CreateAccount(c context.Context, acc *accounts.CreateAccountRequest) (*empty.Empty, error) {
+	log.Printf("received create account: %+v", acc)
 	wf := workflow.CreateAccount(a.Option.GenerateUUID, a.Option.InsertAccount)
 	if err := wf(*acc); err != nil {
 		return nil, err
 	}
-	return nil, nil
+	return &emptypb.Empty{}, nil
 }
 
 func (a App) GetAccount(context.Context, *accounts.GetAccountRequest) (*accounts.Account, error) {
