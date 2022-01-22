@@ -45,6 +45,7 @@ func (a App) CreateAccount(c context.Context, acc *accounts.CreateAccountRequest
 	return &emptypb.Empty{}, nil
 }
 
-func (a App) GetAccount(context.Context, *accounts.GetAccountRequest) (*accounts.Account, error) {
+func (a App) GetAccount(ctx context.Context, acc *accounts.GetAccountRequest) (*accounts.Account, error) {
+	log.Printf("received get account: %+v", acc)
 	return &accounts.Account{}, nil
 }
